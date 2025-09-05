@@ -1,11 +1,13 @@
 package com.example.composeapp
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -21,7 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.composeapp.ui.theme.Purple40
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,7 +58,11 @@ class MainActivity : ComponentActivity() {
             text = "Binty $value",
             fontSize = 20.sp,
             fontStyle = FontStyle.Italic,
-            color = Color.Black
+            color = Color.Black,
+            style = TextStyle(
+                fontSize = 20.sp,
+                color = Color.Black
+            )
         )
     }
 
@@ -66,6 +75,7 @@ class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     fun SafeAreaScaffold() {
+        val context = LocalContext.current
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -89,8 +99,16 @@ class MainActivity : ComponentActivity() {
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text("Hello, world!")
+                Spacer(modifier = Modifier.height(20.dp))
                 Text("This text won’t be cut by the status bar ✅")
                 Text("And it respects bottom nav safe area too 🎉")
+                Button(
+                    onClick = {
+                        Toast.makeText(context, "Done ✅", Toast.LENGTH_SHORT).show()
+                    }
+                ) {
+                    Text("Click here")
+                }
             }
         }
     }
