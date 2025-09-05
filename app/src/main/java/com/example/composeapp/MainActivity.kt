@@ -12,6 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -79,8 +85,49 @@ class MainActivity : ComponentActivity() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text("My Compose App") }
+                    title = { Text("My Compose App") },
+                    navigationIcon = {
+                        IconButton(
+                            onClick = {
+                                Toast.makeText(context, "Drawer ✅", Toast.LENGTH_SHORT).show()
+                            }
+                        ) {
+                            Icon(
+                                Icons.Filled.Menu, contentDescription = "menu"
+                            )
+                        }
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show()
+                            }
+                        ) {
+                            Icon(
+                                Icons.Filled.Notifications, contentDescription = "notification"
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show()
+                            }
+                        ) {
+                            Icon(
+                                Icons.Filled.Search, contentDescription = "search"
+                            )
+                        }
+                    },
+
                 )
+            },
+            floatingActionButton = {
+               FloatingActionButton(
+                   onClick = {
+                       Toast.makeText(context, "Floating button ✅", Toast.LENGTH_SHORT).show()
+                   }
+               ) {
+                   Icon(Icons.Filled.Add, contentDescription = "add")
+               }
             },
             bottomBar = {
                 BottomAppBar {
