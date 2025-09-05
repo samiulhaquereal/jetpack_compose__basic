@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Email
@@ -28,59 +29,48 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.*
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
 import com.example.composeapp.ui.theme.Purple40
+import androidx.navigation.compose.composable
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent{
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = "main") {
+                composable("main") {
+                    SafeAreaScaffold(
+                        onNavigateToLogin = { navController.navigate("login") }
+                    )
+                }
+                composable("login") { LoginScreen(onNavigateBack = { navController.popBackStack() }) }
+            }
             //ColumnComponent()
             //TextComponent()
             //TextComponent("Welcome")
-            SafeAreaScaffold()
+            //SafeAreaScaffold()
         }
-    }
-
-    @Composable
-    fun ColumnComponent(){
-        Column(
-            modifier = Modifier.fillMaxSize().padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp), // space between texts
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text("Real")
-            Text("Binty")
-        }
-    }
-
-    @Composable
-    fun TextComponent(value: String){
-        Text(
-            modifier = Modifier.fillMaxWidth().height(80.dp).background(Color.LightGray).padding(18.dp),
-            text = "Binty $value",
-            fontSize = 20.sp,
-            fontStyle = FontStyle.Italic,
-            color = Color.Black,
-            style = TextStyle(
-                fontSize = 20.sp,
-                color = Color.Black
-            )
-        )
     }
 
     @Preview(showBackground = true)
     @Composable
     fun DefaultPreview(){
-        SafeAreaScaffold()
+        SafeAreaScaffold(
+            onNavigateToLogin = { /* no-op for preview */ }
+        )
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
-    fun SafeAreaScaffold() {
+    fun SafeAreaScaffold(onNavigateToLogin: ()-> Unit) {
         val context = LocalContext.current
         Scaffold(
             topBar = {
@@ -156,8 +146,67 @@ class MainActivity : ComponentActivity() {
                 ) {
                     Text("Click here")
                 }
+                Spacer(modifier = Modifier.height(20.dp))
+                ShowSwitch()
+                Button(
+                    onClick = {
+                        onNavigateToLogin()
+                    }
+                ) {
+                    Text("Login Page ->")
+                }
             }
         }
+    }
+
+    @Composable
+    fun ColumnComponent(){
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp), // space between texts
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Real")
+            Text("Binty")
+        }
+    }
+
+    @Composable
+    fun TextComponent(value: String){
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(80.dp)
+                .background(Color.LightGray)
+                .padding(18.dp),
+            text = "Binty $value",
+            fontSize = 20.sp,
+            fontStyle = FontStyle.Italic,
+            color = Color.Black,
+            style = TextStyle(
+                fontSize = 20.sp,
+                color = Color.Black
+            )
+        )
+    }
+
+    @Composable
+    fun ShowSwitch(){
+        print("Real")
+        val isChecked = remember {
+            mutableStateOf(value = true)
+        }
+        Switch(
+            modifier = Modifier.run{
+                padding(10.dp)
+            },
+            checked = isChecked.value,
+            onCheckedChange = {
+                isChecked.value = it
+            },
+        )
     }
 
 }
