@@ -3,9 +3,12 @@ package com.example.composeapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -17,6 +20,8 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material3.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +29,7 @@ class MainActivity : ComponentActivity() {
         setContent{
             //ColumnComponent()
             //TextComponent()
+            //TextComponent("Welcome")
             SafeAreaScaffold()
         }
     }
@@ -41,12 +47,20 @@ class MainActivity : ComponentActivity() {
     }
 
     @Composable
-    fun TextComponent(){
+    fun TextComponent(value: String){
         Text(
-            text = "Binty",
+            modifier = Modifier.fillMaxWidth().height(80.dp).background(Color.LightGray).padding(18.dp),
+            text = "Binty $value",
             fontSize = 20.sp,
-            fontStyle = FontStyle.Italic
+            fontStyle = FontStyle.Italic,
+            color = Color.Black
         )
+    }
+
+    @Preview(showBackground = true)
+    @Composable
+    fun DefaultPreview(){
+        SafeAreaScaffold()
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
