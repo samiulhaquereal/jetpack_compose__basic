@@ -40,6 +40,9 @@ fun LoginScreen(
     var email by remember {
         mutableStateOf("")
     }
+    var password by remember {
+        mutableStateOf("")
+    }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -107,6 +110,14 @@ fun LoginScreen(
                 onValueChange = { email = it },
                 label = "Email",
                 placeholder = "Enter your email",
+                modifier = Modifier.padding(16.dp)
+            )
+            CustomTextField(
+                value = password,
+                isPassword = true,
+                onValueChange = { password = it },
+                label = "Password",
+                placeholder = "Enter your Password",
                 modifier = Modifier.padding(16.dp)
             )
         }
