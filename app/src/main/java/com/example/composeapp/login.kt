@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.composeapp.ui.components.AppTopBar
 
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -50,33 +51,11 @@ fun LoginScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("My Compose App") },
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            Toast.makeText(context, "Drawer ✅", Toast.LENGTH_SHORT).show()
-                        }
-                    ) {
-                        Icon(Icons.Filled.Menu, contentDescription = "menu")
-                    }
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show()
-                        }
-                    ) {
-                        Icon(Icons.Filled.Notifications, contentDescription = "notification")
-                    }
-                    IconButton(
-                        onClick = {
-                            Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show()
-                        }
-                    ) {
-                        Icon(Icons.Filled.Search, contentDescription = "search")
-                    }
-                },
+            AppTopBar(
+                title = "My Compose App",
+                onMenuClick = { Toast.makeText(context, "Drawer ✅", Toast.LENGTH_SHORT).show() },
+                onNotificationClick = { Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show() },
+                onSearchClick = { Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show() }
             )
         },
     ) { innerPadding ->
