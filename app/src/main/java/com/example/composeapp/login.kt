@@ -17,10 +17,11 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(onNavigateBack: () -> Unit) {
+fun LoginScreen(navController: NavController,name: String) {
     val context = LocalContext.current
     Scaffold(
         topBar = {
@@ -67,7 +68,7 @@ fun LoginScreen(onNavigateBack: () -> Unit) {
                 .padding(innerPadding),
             contentAlignment = Alignment.Center
         ) {
-            Text("This is the Login Screen 🎉")
+            Text("This is the Login Screen. Welcome $name 🎉")
         }
     }
 }
