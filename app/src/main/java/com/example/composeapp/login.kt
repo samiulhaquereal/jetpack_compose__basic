@@ -28,21 +28,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
     navController: NavController? = null,
-    name: String = "Guest"
+    name: String = "Guest",
+    vm: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
-    var email by remember {
-        mutableStateOf("")
+    val uiState by vm.uiState.collectAsState()
+
+    // Collect one-shot events (Toast messages)
+    LaunchedEffect(Unit) {
+        vm.events.collect { msg ->
+            Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+        }
     }
-    var password by remember {
-        mutableStateOf("")
-    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -53,9 +58,7 @@ fun LoginScreen(
                             Toast.makeText(context, "Drawer ✅", Toast.LENGTH_SHORT).show()
                         }
                     ) {
-                        Icon(
-                            Icons.Filled.Menu, contentDescription = "menu"
-                        )
+                        Icon(Icons.Filled.Menu, contentDescription = "menu")
                     }
                 },
                 actions = {
@@ -64,62 +67,74 @@ fun LoginScreen(
                             Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show()
                         }
                     ) {
-                        Icon(
-                            Icons.Filled.Notifications, contentDescription = "notification"
-                        )
+                        Icon(Icons.Filled.Notifications, contentDescription = "notification")
                     }
                     IconButton(
                         onClick = {
                             Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show()
                         }
                     ) {
-                        Icon(
-                            Icons.Filled.Search, contentDescription = "search"
-                        )
+                        Icon(Icons.Filled.Search, contentDescription = "search")
                     }
                 },
-
-                )
+            )
         },
     ) { innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding) // ⬅️ Safe area padding applied here
+                .padding(innerPadding)
                 .padding(16.dp),
         ) {
             Box(
                 modifier = Modifier
-                    .padding(12.dp) // acts like margin
+                    .padding(12.dp)
                     .size(width = 120.dp, height = 60.dp)
                     .background(
                         color = Color.Gray,
                         shape = RoundedCornerShape(10.dp)
                     )
-                    .padding(8.dp), // inner padding
+                    .padding(8.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Text("Hi! $name", style = TextStyle(
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                ))
+                Text(
+                    "Hi! $name",
+                    style = TextStyle(
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
+
             Spacer(modifier = Modifier.height(10.dp))
+
             CustomTextField(
-                value = email,
-                onValueChange = { email = it },
+                value = uiState.email,
+                onValueChange = { value ->
+                    vm.onEmailChanged(value)  // 👈 the new text comes from the TextField
+                },
                 label = "Email",
                 placeholder = "Enter your email",
                 modifier = Modifier.padding(16.dp)
             )
             CustomTextField(
-                value = password,
+                value = uiState.password,
                 isPassword = true,
-                onValueChange = { password = it },
+                onValueChange = vm::onPasswordChanged,
                 label = "Password",
                 placeholder = "Enter your Password",
                 modifier = Modifier.padding(16.dp)
             )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    onClick = vm::onLoginClicked
+                ) {
+                    Text("Login")
+                }
+            }
         }
     }
 }
