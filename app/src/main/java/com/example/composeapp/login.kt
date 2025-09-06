@@ -3,23 +3,14 @@ package com.example.composeapp
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
@@ -29,7 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.composeapp.ui.components.AppTopBar
+import com.example.composeapp.ui.components.AppDrawerContent
+import com.example.composeapp.ui.components.AppScaffold
 
 @Preview(showBackground = true)
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,16 +41,17 @@ fun LoginScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-            AppTopBar(
-                title = "My Compose App",
-                onMenuClick = { Toast.makeText(context, "Drawer ✅", Toast.LENGTH_SHORT).show() },
-                onNotificationClick = { Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show() },
-                onSearchClick = { Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show() }
+    AppScaffold(
+        title = "My Compose App",
+        drawerContent = {
+            AppDrawerContent(
+                onProfileClick = { /* navController?.navigate("profile") */ },
+                onSettingsClick = { /* navController?.navigate("setting") */ }
             )
         },
-    ) { innerPadding ->
+        onNotificationClick = { Toast.makeText(context, "Notification ✅", Toast.LENGTH_SHORT).show() },
+        onSearchClick = { Toast.makeText(context, "Search ✅", Toast.LENGTH_SHORT).show() }
+    ) {innerPadding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()

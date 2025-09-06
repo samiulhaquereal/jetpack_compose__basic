@@ -20,7 +20,9 @@ fun AppTopBar(
 ) {
     val context = LocalContext.current
 
-    TopAppBar(
+    //TopAppBar
+
+    CenterAlignedTopAppBar(
         title = { Text(title) },
         navigationIcon = {
             IconButton(
