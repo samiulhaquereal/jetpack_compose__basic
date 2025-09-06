@@ -39,11 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 
 @Preview(showBackground = true)
-@Composable
-fun DefaultPreview(){
-    SafeAreaScaffold()
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SafeAreaScaffold(
